@@ -1,13 +1,17 @@
 from flask import Flask, render_template
-from fireb.fstore import get_all_message
+
+from .fstore import get_all_message
+
 app = Flask(__name__)
+
 
 @app.route("/")
 def index():
     return {
-            'name': 'dshaw0004',
-            'lang': 'python'
-            }
+        'name': 'dshaw0004',
+        'lang': 'python'
+    }
+
 
 @app.route("/allmes")
 def allmes():

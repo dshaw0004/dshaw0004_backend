@@ -1,6 +1,6 @@
 from flask import Flask, render_template
 
-from .fstore import get_all_message
+from fstore import get_all_message
 
 app = Flask(__name__)
 

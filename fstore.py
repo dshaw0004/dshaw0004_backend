@@ -1,6 +1,6 @@
 from firebase_admin import firestore
 
-from .main import app
+from .fire import app
 
 db = firestore.client(app)
 

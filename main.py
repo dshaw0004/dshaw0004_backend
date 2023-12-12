@@ -56,11 +56,10 @@ def allmes():
     else:
         return jsonify({"permission": "denied"}), 404
 
-@app.route("/addnewmsg", methods=['post'])
+@app.route("/addnewmsg", methods=['POST'])
 def addnewmsg():
     data = request.json
-    add_new_message(message=data.get('message'), senderName=data.get(
-        'senderName'), senderContact=data.get('senderContact'))
+    add_new_message(data.get('message'), data.get('senderName'), data.get('senderContact'))
     return {
         'your_name': data.get('senderName'),
         'your_message': data.get('message'),
@@ -68,7 +67,7 @@ def addnewmsg():
     }
 
 
-@app.route("/login", methods=['post'])
+@app.route("/login", methods=['POST'])
 def login():
     data = request.json
     if data.get('email') == os.getenv("email") and data.get("password") == os.getenv("password"):

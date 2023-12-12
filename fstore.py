@@ -20,7 +20,7 @@ def get_all_message():
 
 def add_new_message(message: str, senderName: str, senderContact: str):
 
-    no_of_message = randint * randint
+    no_of_message = randint(1, 99999) * randint(5, 77635)
     doc_ref = db.collection("messages").document(f"devp{no_of_message}")
     doc_ref.set({"message": message, "senderName": senderName,
                 "senderContact": senderContact})

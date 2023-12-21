@@ -17,10 +17,10 @@ ALLOWED_ORIGIN = [
 app = Flask(__name__)
 CORS(app, resources={
     r'/getallmsg': {
-        "origins": ALLOWED_ORIGIN
+        "origins": ['*']
     },
     r'/addnewmsg': {
-        "origins": ALLOWED_ORIGIN
+        "origins": ['*']
     },
     r'/': {
         "origins": [

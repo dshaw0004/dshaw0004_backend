@@ -118,7 +118,7 @@ def add_new_suggestion_appstore():
 
 
 @app.route("/appstore/suggestion/get")
-def add_new_suggestion_appstore():
+def get_suggestion_appstore():
     auth = request.headers.get('Authorization')
     if auth == os.getenv('AUTH'):
         allmess = get_all_suggestions()

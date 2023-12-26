@@ -2,7 +2,7 @@ import os
 
 from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS, cross_origin
-
+from pyapps import add_new_app, get_all_app_info, get_all_suggestions, add_new_suggestion
 from fstore import add_new_message, get_all_message
 
 ALLOWED_ORIGIN = [
@@ -31,7 +31,27 @@ CORS(app, resources={
         "origins": [
             "*"
         ]
-    }
+    },
+    r"/appstore/appsinfo/add": {
+        "origins": [
+            "*"
+        ]
+    },
+    r"/appstore/appsinfo/get": {
+        "origins": [
+            "*"
+        ]
+    },
+    r"/appstore/suggestion/get": {
+        "origins": [
+            "*"
+        ]
+    },
+    r"/appstore/suggestion/add": {
+        "origins": [
+            "*"
+        ]
+    },
 })
 
 
@@ -56,10 +76,12 @@ def allmes():
     else:
         return jsonify({"permission": "denied"}), 404
 
+
 @app.route("/addnewmsg", methods=['POST'])
 def addnewmsg():
     data = request.json
-    add_new_message(data.get('message'), data.get('senderName'), data.get('senderContact'))
+    add_new_message(data.get('message'), data.get(
+        'senderName'), data.get('senderContact'))
     return {
         'your_name': data.get('senderName'),
         'your_message': data.get('message'),
@@ -81,18 +103,50 @@ def login():
             'id': 'unknown'
         }
 
-@app.route("/appstore", methods=['post'])
-def addnewmsg_appstore():
-    
+
+@app.route("/appstore/suggestion/add", methods=['post'])
+def add_new_suggestion_appstore():
+
     data = request.json
-    add_new_message(message="for appstore"+data.get('message'), senderName=data.get(
-        'senderName'), senderContact=data.get('senderContact'))
+    add_new_suggestion(name=data.get('name'), description=data.get(
+        'suggestion'), senderContact=data.get('senderContact'))
     return {
-        'your_name': data.get('senderName'),
-        'your_message': data.get('message'),
+        'your_name': data.get('name'),
+        'your_suggestion': data.get('suggestion'),
         'your_contact': data.get('senderContact')
     }
 
+
+@app.route("/appstore/suggestion/get")
+def add_new_suggestion_appstore():
+    auth = request.headers.get('Authorization')
+    if auth == os.getenv('AUTH'):
+        allmess = get_all_suggestions()
+        return jsonify(allmess)
+    else:
+        return jsonify({"permission": "denied"}), 404
+
+
+@app.route("/appstore/appsinfo/get")
+def all_apps_info():
+    auth = request.headers.get('Authorization')
+    if auth == os.getenv('AUTH'):
+        allmess = get_all_app_info()
+        return jsonify(allmess)
+    else:
+        return jsonify({"permission": "denied"}), 404
+
+
+@app.route("/appstore/appsinfo/add", methods=['POST'])
+def add_new_app_info():
+    data = request.json
+    add_new_app(data.get('name'), data.get(
+        'description'), data.get('appURL'))
+    return {
+        'app_name': data.get('name'),
+        'app_description': data.get('description'),
+        'app_url': data.get('appURL')
+    }
 
 
 if __name__ == "__main__":

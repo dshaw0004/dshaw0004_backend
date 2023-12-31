@@ -2,7 +2,8 @@ import os
 
 from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS, cross_origin
-from pyapps import add_new_app, get_all_app_info, get_all_suggestions, add_new_suggestion
+from appbucket import add_new_app, get_all_app_info
+from appbucket import get_all_suggestions, add_new_suggestion
 from fstore import add_new_message, get_all_message
 
 ALLOWED_ORIGIN = [
@@ -140,13 +141,16 @@ def all_apps_info():
 @app.route("/appstore/appsinfo/add", methods=['POST'])
 def add_new_app_info():
     data = request.json
-    add_new_app(data.get('name'), data.get(
-        'description'), data.get('appURL'))
-    return {
-        'app_name': data.get('name'),
-        'app_description': data.get('description'),
-        'app_url': data.get('appURL')
+    app_info = {
+        'name': data.get('name'),
+        'description': data.get('description'),
+        'appLink': data.get('appLink'),
+        'platform': data.get("platform"),
+        'thumbnail': data.get("thumbnail"),
+        'version': data.get("version")
     }
+    add_new_app(app_info)
+    return app_info
 
 
 if __name__ == "__main__":

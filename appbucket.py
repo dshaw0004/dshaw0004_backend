@@ -1,8 +1,10 @@
 from random import randint
+from typing import NewType
 
 from firebase_admin import firestore
 
 from fire import app2
+
 
 db = firestore.client(app2)
 
@@ -18,12 +20,14 @@ def get_all_app_info():
     return all_messages
 
 
-def add_new_app(name: str, description: str, appURL: str):
+def add_new_app(app_info):
+    ''' app_info must contain these  
+    {"name": str, 'description': str, 'appLink': str, 'platform': str, 'thumbnail': str, "version": float}'''
 
-    no_of_message = randint(1, 99999) * randint(5, 77635)
-    doc_ref = db.collection("allInfo").document(f"devp{no_of_message}")
-    doc_ref.set({"name": name, "description": description,
-                "appURL": appURL})
+    document_id = app_info['name'].replace(" ", '') + str(app_info['version'])
+
+    doc_ref = db.collection("allInfo").document(f"{document_id}")
+    doc_ref.set(app_info)
 
 
 def get_all_suggestions():

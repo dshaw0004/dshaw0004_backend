@@ -2,9 +2,11 @@ import os
 
 from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS, cross_origin
-from appbucket import add_new_app, get_all_app_info
+from appbank import add_new_app, get_all_app_info
 from appbucket import get_all_suggestions, add_new_suggestion
 from fstore import add_new_message, get_all_message
+from dataclasses import dataclass
+
 
 ALLOWED_ORIGIN = [
     'https://dshaw0004.netlify.app',

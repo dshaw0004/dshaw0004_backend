@@ -4,5 +4,6 @@ lib/
 lib64/
 
 fire.json
+appbank_config.json
 
 index.html

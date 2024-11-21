@@ -29,4 +29,4 @@ def disconnect_details(username, room):
     emit('remove', {'username': f'{username} user disconnected.'}, broadcast=True, include_self=False, to=room)
 
 if __name__ == '__main__':
-    socketio.run(app, port=3428, debug=True)
+    socketio.run(app, port=3428, host='0.0.0.0')

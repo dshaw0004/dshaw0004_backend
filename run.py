@@ -1,5 +1,6 @@
 from app import app, socketio
 from app import db
+import routes
 
 if '__main__' == __name__:
     with app.app_context():

@@ -2,9 +2,9 @@ from random import randint
 
 from firebase_admin import firestore
 
-from fire import app1
+from fire import app
 
-db = firestore.client(app1)
+db = firestore.client(app)
 
 
 def get_all_message():

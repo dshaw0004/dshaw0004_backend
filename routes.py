@@ -1,6 +1,6 @@
 from app import app, db, socketio
 from flask import render_template, request, jsonify
-from .models import User, Friend, Chat
+from models import User, Friend, Chat
 from flask_socketio import join_room, leave_room
 from flask_socketio import send, emit
 from uuid import uuid4

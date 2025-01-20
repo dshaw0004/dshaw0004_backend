@@ -7,7 +7,7 @@ from uuid import uuid4
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return '<h1>I am working</h1>'
 
 @app.route('/register', methods=['POST'])
 def register():

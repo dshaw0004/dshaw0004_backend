@@ -24,7 +24,7 @@ def register():
     db.session.add(new_user)
     db.session.commit()
 
-    return new_user.id, 201
+    return str(new_user.id), 201
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -35,7 +35,7 @@ def login():
     user = User.query.filter_by(email=email).first()
 
     if user and user.check_password(password):
-        return user.id, 200
+        return str(user.id), 200
     else:
         return jsonify({'message': 'Invalid email or password'}), 401
 

@@ -1,6 +1,6 @@
 from app import app, db, socketio
 from flask import render_template, request, jsonify
-from models import User, Friend, Chat
+from models import User, Friend, Chat, AppInfo
 from flask_socketio import join_room, leave_room
 from flask_socketio import send, emit
 from uuid import uuid4
@@ -8,6 +8,36 @@ from uuid import uuid4
 @app.route('/')
 def index():
     return '<h1>I am working</h1>'
+
+@app.route('/addnewapp', methods=['POST'])
+def add_new_app():
+    data = request.get_json()
+    name = data['name']
+    description = data.get('description', '')
+    app_link = data['appLink']
+    platform = data['platform']
+    thumbnail = data.get('thumbnail', '')
+    version = data.get('version')
+    author = 'dshaw0004'
+    # if User.query.filter_by(email=email).first():
+    #     return jsonify({'message': 'User already exists'}), 400
+    new_app: AppInfo = AppInfo(name=name, 
+                               description=description, 
+                               app_link=app_link, 
+                               platform=platform, 
+                               thumbnail=thumbnail, 
+                               version=version, 
+                               author=author
+                        )
+    db.session.add(new_app)
+    db.session.commit()
+    return str(new_app.id), 201
+
+@app.route('/getallapp')
+def get_all_app():
+    all_apps: list[AppInfo] = AppInfo.query.all()
+    apps = [app.to_dict() for app in all_apps]
+    return apps
 
 @app.route('/register', methods=['POST'])
 def register():
@@ -99,14 +129,13 @@ def handle_send_message(data):
 def on_join(data):
     username = data['username']
     room = data['room']
-    print(room)
+    # print(room)
     join_room(room)
     # send(username + ' has entered the room.', to=room)
     emit('newjoin', {'username': username}, broadcast=True, include_self=False, to=room)
 
 @socketio.on('text')
 def text(msg, room):
-    # print(data)
     emit('meessageBroadcast', {'message': msg, 'id': str(uuid4())}, broadcast=True, include_self=False, to=room)
 
 @socketio.on('client_disconnecting')

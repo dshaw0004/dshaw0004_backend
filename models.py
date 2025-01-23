@@ -1,3 +1,4 @@
+from sys import platform
 from app import db, bcrypt
 import random
 from sqlalchemy.orm import validates
@@ -52,3 +53,29 @@ class Chat(db.Model):
 
     def __repr__(self):
         return f'<Chat {self.sender_id} -> {self.receiver_id}: {self.message}>'
+
+
+class AppInfo(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.Text, nullable=False)
+    description = db.Column(db.Text, nullable=True)
+    app_link = db.Column(db.Text, nullable=False)
+    platform = db.Column(db.Text, nullable=False)
+    thumbnail = db.Column(db.Text, nullable=True)
+    version = db.Column(db.Text, nullable=False)
+    author = db.Column(db.Text, nullable=False)
+
+    def __repr__(self) -> str:
+        return f'<AppInfo {self.name} {self.version} {self.author}>'
+
+    def to_dict(self)-> dict:
+        return {
+                'id': self.id,
+                'name': self.name,
+                'description': self.description,
+                'app_link': self.app_link,
+                'platform': self.platform,
+                'thumbnail': self.thumbnail,
+                'version': self.version,
+                'author': self.author
+                }

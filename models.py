@@ -35,8 +35,8 @@ class User(db.Model):
 class Friend(db.Model):
     __tablename__ = 'Friendship'
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    friend_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('User.id'), nullable=False)
+    friend_id = db.Column(db.Integer, db.ForeignKey('User.id'), nullable=False)
 
     user = db.relationship('User', foreign_keys=[user_id])
     friend = db.relationship('User', foreign_keys=[friend_id])
@@ -47,8 +47,8 @@ class Friend(db.Model):
 class Chat(db.Model):
     __tablename__ = 'Chat'
     id = db.Column(db.Integer, primary_key=True)
-    sender_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    receiver_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    sender_id = db.Column(db.Integer, db.ForeignKey('User.id'), nullable=False)
+    receiver_id = db.Column(db.Integer, db.ForeignKey('User.id'), nullable=False)
     message = db.Column(db.Text, nullable=False)
 
     sender = db.relationship('User', foreign_keys=[sender_id])

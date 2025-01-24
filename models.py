@@ -4,6 +4,7 @@ import random
 from sqlalchemy.orm import validates
 
 class User(db.Model):
+    __tablename__ = 'User'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
@@ -32,6 +33,7 @@ class User(db.Model):
 
 
 class Friend(db.Model):
+    __tablename__ = 'Friendship'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     friend_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
@@ -43,6 +45,7 @@ class Friend(db.Model):
         return f'<Friend {self.user_id} - {self.friend_id}>'
 
 class Chat(db.Model):
+    __tablename__ = 'Chat'
     id = db.Column(db.Integer, primary_key=True)
     sender_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     receiver_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
@@ -56,6 +59,7 @@ class Chat(db.Model):
 
 
 class AppInfo(db.Model):
+    __tablename__ = 'AppInfo'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Text, nullable=False)
     description = db.Column(db.Text, nullable=True)

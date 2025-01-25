@@ -62,3 +62,6 @@ Werkzeug==3.0.1
 wsproto==1.2.0
 zope.event==5.0
 zope.interface==7.1.1
+
+Flask-Migrate~=4.1.0
+alembic~=1.14.1

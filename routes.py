@@ -36,8 +36,34 @@ def add_new_app():
 @app.route('/getallapp')
 def get_all_app():
     all_apps: list[AppInfo] = AppInfo.query.all()
-    apps = [app.to_dict() for app in all_apps]
+    apps = [App.to_dict() for App in all_apps]
     return apps
+
+@app.route('/deleteapp/<int:id>', methods=['DELETE'])
+def delete_app(id):
+    app_to_delete = AppInfo.query.get(id)
+    if not app_to_delete:
+        return jsonify({'message': 'App not found'}), 404
+
+    db.session.delete(app_to_delete)
+    db.session.commit()
+    return jsonify({'message': 'App deleted successfully'}), 200
+
+@app.route('/deleteappbyname', methods=['DELETE'])
+def delete_app_by_name():
+    data = request.get_json()
+    name = data.get('name')
+
+    if not name:
+        return jsonify({'message': 'App name is required'}), 400
+
+    app_to_delete = AppInfo.query.filter_by(name=name).first()
+    if not app_to_delete:
+        return jsonify({'message': 'App not found'}), 404
+
+    db.session.delete(app_to_delete)
+    db.session.commit()
+    return jsonify({'message': 'App deleted successfully'}), 200
 
 @app.route('/register', methods=['POST'])
 def register():

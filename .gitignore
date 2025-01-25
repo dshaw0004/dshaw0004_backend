@@ -1,10 +1,12 @@
 .env/
 .venv/
+.idea/
 
 bin/
 include/
 lib/
 lib64/
+migrations/
 
 fire.json
 appbank_config.json
